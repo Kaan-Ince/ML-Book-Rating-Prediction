@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 
 
-df = pd.read_csv("C:/Users/Kaan/Documents/Masters/(Week 4) Python Machine Learning Labs/Project 1/books.csv", sep=",", on_bad_lines="skip", index_col="bookID")
+df = pd.read_csv("./books.csv", sep=",", on_bad_lines="skip", index_col="bookID")
 
 
 df.rename({"  num_pages": "num_pages"}, axis=1, inplace=True)
