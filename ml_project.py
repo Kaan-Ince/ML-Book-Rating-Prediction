@@ -45,55 +45,28 @@ with st.expander("The Dataset Post-Processing"):
     df_processed
 
 
-df_train, df_test = train_test_split(df_processed, test_size=0.20, random_state=42)
-
-X_train = df_train.drop("average_rating", axis=1)
-y_train = df_train["average_rating"]
-
-X_test = df_test.drop("average_rating", axis=1)
-y_test = df_test["average_rating"]
-
-
-random_forest_reg = RandomForestRegressor(random_state=42)
-random_forest_reg.fit(X_train, y_train)
-y_predicted = np.round(random_forest_reg.predict(X_test), 2)
+X = df.drop("average_rating", axis=1)
+y = df_processed["average_rating"]
 
 
 with st.sidebar:
     st.header("Input Book Title")
     title = st.selectbox("Book Title", (df["title"]))
     input_data = {"Title": title}
-    input_df = pd.DataFrame(input_data)
+    input_df = pd.DataFrame(input_data, index=[0])
+    input_books = pd.concat([input_df, X], axis=0)
 
 with st.expander:
     st.write("Inputted Book and its features")
     input_df
 
 
-
-df_train, df_test = train_test_split(df_processed, test_size=0.20, random_state=42)
-
-X_train = df_train.drop("average_rating", axis=1)
-y_train = df_train["average_rating"]
-
-X_test = df_test.drop("average_rating", axis=1)
-y_test = df_test["average_rating"]
-
+input_row = df[:1]
 
 
 random_forest_reg = RandomForestRegressor(random_state=42)
-random_forest_reg.fit(X_train, y_train)
-y_predicted = np.round(random_forest_reg.predict(X_test), 2)
+random_forest_reg.fit(df_processed, y)
+y_predicted = np.round(random_forest_reg.predict(input_row), 2)
 
+y_predicted
 
-
-
-# with st.expander("Model Evaluation"):
-    
-#    accuracy = (y_predicted == y_test).sum()/len(y_test)
-#    score = np.round(r2_score(y_test, y_predicted) * 100, 2)
-#    error = np.sqrt(mean_squared_error(y_test, y_predicted))
-    
-#    print("Accuracy calculated by hand:", np.round((accuracy * 100), 2), "%")
-#    print("R2 Score:", score)
-#    print("Mean Squared Error:", np.round(error, 3))
