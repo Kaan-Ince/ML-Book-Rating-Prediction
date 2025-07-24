@@ -7,9 +7,9 @@ st.title("Book Prediction App")
 st.info("This app predicts the rating of the inputted book by using the RandomForestRegressor Machine Learning model.")
 
 
-with st.expander("The Dataset After Initial Cleaning"):
-    
-    st.write("Dataset")
+with st.expander("The Dataset After Initial Cleaning"): 
+    st.header("Dataset")
+    st.write("Select your book from the sidebar on the left.")
     
     df = pd.read_csv("https://raw.githubusercontent.com/Kaan-Ince/ML-Book-Rating-Prediction/refs/heads/main/books.csv", sep=",", on_bad_lines="skip", index_col="bookID")
     df.rename({"  num_pages": "num_pages"}, axis=1, inplace=True)
