@@ -25,7 +25,7 @@ with st.expander("The Dataset After Initial Cleaning"):
     df
 
 
-df = df2
+df2 = df
 
 df2["language_code"] = pd.factorize(df2["language_code"])[0]
 df2["publication_date"] = pd.to_datetime(df2["publication_date"]).dt.year
