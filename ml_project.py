@@ -67,12 +67,13 @@ with st.sidebar:
     input_book = pd.concat([input_df, X], axis=0)
 
 input_row = input_book[:1]
-input_rating = input_row.average_rating
+with st.expander("Input Row"):
+    input_row
 
-random_forest_reg = RandomForestRegressor(random_state=42)
-random_forest_reg.fit(X_processed, y)
-y_predicted = np.round(random_forest_reg.predict(input_rating), 2)
+#random_forest_reg = RandomForestRegressor(random_state=42)
+#random_forest_reg.fit(X_processed, y)
+#y_predicted = np.round(random_forest_reg.predict(input_rating), 2)
 
 
-st.subheader("Predicted Average Rating")
-y_predicted
+#st.subheader("Predicted Average Rating")
+#y_predicted
