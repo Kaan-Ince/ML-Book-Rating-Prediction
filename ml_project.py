@@ -37,10 +37,10 @@ df2["rating_count_weighted"] = df2["average_rating"] * df2["ratings_count"]
 df2["text_review_count_weighted"] = df2["average_rating"] * df2["text_reviews_count"]
 df2["page_weighted"] = df2["average_rating"] * df2["num_pages"]
 
-df_processed = df2.drop(columns=["title", "authors", "isbn", "isbn13", "publisher"])
+df_processed = df2.drop(columns=["authors", "isbn", "isbn13", "publisher"])
 
 
-X = df_processed.drop("average_rating", axis=1)
+X = df_processed.drop(columns=["title", "average_rating"], axis=1)
 y = df_processed["average_rating"]
 
 
