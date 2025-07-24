@@ -51,11 +51,12 @@ with st.sidebar:
     input_processed = df_processed.loc[df_processed["title"] == title]
 
 input_row = input_data[:1]
+input_row_processed = input_processed[:1]
 
 with st.expander("Input Row"):
     input_row
 
-input_prediction = input_processed.drop(columns=["title", "average_rating"], axis=1)
+input_prediction = input_row_processed.drop(columns=["title", "average_rating"], axis=1)
 
 X_final = df_processed.drop("title", axis=1)
 
