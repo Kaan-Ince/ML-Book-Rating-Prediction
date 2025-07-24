@@ -25,41 +25,43 @@ with st.expander("The Dataset After Initial Cleaning"):
     df
 
 
-df["language_code"] = pd.factorize(df["language_code"])[0]
-df["publication_date"] = pd.to_datetime(df["publication_date"]).dt.year
+df = df2
 
-df["occurence_count"] = df.groupby("title")["title"].transform("count")
+df2["language_code"] = pd.factorize(df2["language_code"])[0]
+df2["publication_date"] = pd.to_datetime(df2["publication_date"]).dt.year
 
-df["occ_weighted"] = df["average_rating"] * df["occurence_count"]
-df["rating_count_weighted"] = df["average_rating"] * df["ratings_count"]
-df["text_review_count_weighted"] = df["average_rating"] * df["text_reviews_count"]
-df["page_weighted"] = df["average_rating"] * df["num_pages"]
+df2["occurence_count"] = df2.groupby("title")["title"].transform("count")
 
-df_processed = df.drop(columns=["title", "authors", "isbn", "isbn13", "publisher"])
+df2["occ_weighted"] = df2["average_rating"] * df2["occurence_count"]
+df2["rating_count_weighted"] = df2["average_rating"] * df2["ratings_count"]
+df2["text_review_count_weighted"] = df2["average_rating"] * df2["text_reviews_count"]
+df2["page_weighted"] = df2["average_rating"] * df2["num_pages"]
+
+df_processed = df2.drop(columns=["authors", "isbn", "isbn13", "publisher"])
 
 
 X = df.drop("average_rating", axis=1)
 y = df_processed["average_rating"]
-
 X_processed = df_processed.drop("average_rating", axis=1)
 
 with st.sidebar:
     st.header("Input Book Title")
     title = st.selectbox("Select Book", (df["title"]))
     input_data = df.loc[df["title"] == title]
+    input_processed = df_processed.loc[df_processed["title"] == title]
 
 input_row = input_data[:1]
-input_rating = input_row.average_rating
 
 with st.expander("Input Row"):
     input_row
 
-input_rating = input_row["average_rating"]
+input_prediction = df_processed.drop(columns=["average_rating", "title"])
 
+X_final = df_processed.drop("title", axis=1)
 
 random_forest_reg = RandomForestRegressor(random_state=42)
-random_forest_reg.fit(X_processed, y)
-y_predicted = np.round(random_forest_reg.predict(input_rating), 2)
+random_forest_reg.fit(X_final, y)
+y_predicted = np.round(random_forest_reg.predict(input_prediction), 2)
 
 with st.expander("Prediction"):
     st.subheader("Predicted Average Rating")
