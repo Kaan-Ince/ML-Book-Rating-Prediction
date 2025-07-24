@@ -25,19 +25,17 @@ with st.expander("The Dataset After Initial Cleaning"):
     df
 
 
-df2 = df
+df["language_code"] = pd.factorize(df["language_code"])[0]
+df["publication_date"] = pd.to_datetime(df["publication_date"]).dt.year
 
-df2["language_code"] = pd.factorize(df2["language_code"])[0]
-df2["publication_date"] = pd.to_datetime(df2["publication_date"]).dt.year
+df["occurence_count"] = df.groupby("title")["title"].transform("count")
 
-df2["occurence_count"] = df2.groupby("title")["title"].transform("count")
+df["occ_weighted"] = df["average_rating"] * df["occurence_count"]
+df["rating_count_weighted"] = df["average_rating"] * df["ratings_count"]
+df["text_review_count_weighted"] = df["average_rating"] * df["text_reviews_count"]
+df["page_weighted"] = df["average_rating"] * df["num_pages"]
 
-df2["occ_weighted"] = df2["average_rating"] * df2["occurence_count"]
-df2["rating_count_weighted"] = df2["average_rating"] * df2["ratings_count"]
-df2["text_review_count_weighted"] = df2["average_rating"] * df2["text_reviews_count"]
-df2["page_weighted"] = df2["average_rating"] * df2["num_pages"]
-
-df_processed = df2.drop(columns=["authors", "isbn", "isbn13", "publisher"])
+df_processed = df.drop(columns=["authors", "isbn", "isbn13", "publisher"])
 
 
 X = df_processed.drop(columns=["title", "average_rating"], axis=1)
@@ -50,18 +48,18 @@ with st.sidebar:
     input_data = df.loc[df["title"] == title]
     input_processed = df_processed.loc[df_processed["title"] == title]
 
+
 input_row = input_data[:1]
 input_row_processed = input_processed[:1]
 
 with st.expander("Input Row"):
     input_row
 
-input_prediction = input_row_processed.drop(columns=["title"], axis=1)
+input_prediction = input_row_processed.drop(columns=["title", "average_rating"], axis=1)
 
-X_final = df_processed.drop("title", axis=1)
 
 random_forest_reg = RandomForestRegressor(random_state=42)
-random_forest_reg.fit(X_final, y)
+random_forest_reg.fit(X, y)
 y_predicted = np.round(random_forest_reg.predict(input_prediction), 2)
 
 with st.expander("Prediction"):
