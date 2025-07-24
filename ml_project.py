@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_squared_error
 
 st.title("Book Prediction App")
 st.info("This app predicts the rating of the inputted book by using the RandomForestRegressor Machine Learning model.")
@@ -48,26 +46,10 @@ X_processed = df_processed.drop("average_rating", axis=1)
 with st.sidebar:
     st.header("Input Book Title")
     title = st.selectbox("Select Book", (df["title"]))
-    authors = df["authors"].values()
-    average_rating = df["average_rating"].values()
-    isbn = df["isbn"].values()
-    isbn13 = df["isbn13"].values()
-    language_code = df["language_code"].values()
-    num_pages = df["num_pages"].values()
-    ratings_count = df["ratings_count"].values()
-    text_reviews_count = df["text_reviews_count"].values()
-    publication_date = df["publication_date"].values()
-    publisher = df["publisher"].values()
-    
-    input_data = {"title": title, "authors": authors, "average_rating": average_rating,
-                  "isbn": isbn, "isbn13": isbn13, "language_code": language_code,
-                  "num_pages": num_pages, "ratings_count": ratings_count, "text_reviews_count": text_reviews_count,
-                  "publication_date": publication_date, "publisher": publisher}
-    
-    input_df = pd.DataFrame(input_data, index=[0])
-    input_book = pd.concat([input_df, X], axis=0)
+    input_data = df.loc[df["title"] == title]
 
-input_row = input_book[:1]
+input_row = input_data[:1]
+input_rating = input_row.average_rating
 
 with st.expander("Input Row"):
     input_row
