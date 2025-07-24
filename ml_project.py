@@ -57,7 +57,7 @@ with st.sidebar:
     input_books = pd.concat([input_df, X], axis=0)
 
 with st.expander:
-    st.write("Inputted Book and its features")
+    st.header("Inputted Book and its features")
     input_df
 
 
