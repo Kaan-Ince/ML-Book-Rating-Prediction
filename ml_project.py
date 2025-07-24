@@ -7,7 +7,8 @@ st.title("Book Prediction App")
 st.info("This app predicts the rating of the inputted book by using the RandomForestRegressor Machine Learning model.")
 
 
-with st.expander("The Dataset After Initial Cleaning"): 
+with st.expander("The Dataset After Initial Cleaning"):
+    
     st.header("Dataset")
     st.write("Select your book from the sidebar on the left.")
     
@@ -38,29 +39,31 @@ df["page_weighted"] = df["average_rating"] * df["num_pages"]
 df_processed = df.drop(columns=["authors", "isbn", "isbn13", "publisher"])
 
 
-X = df_processed.drop(columns=["title", "average_rating"], axis=1)
-y = df_processed["average_rating"]
-
-
 with st.sidebar:
     st.header("Input Book Title")
     title = st.selectbox("Select Book", (df["title"]))
     input_data = df.loc[df["title"] == title]
     input_processed = df_processed.loc[df_processed["title"] == title]
+    input_excluded = df_processed.drop(df[df_processed["title"] == title].index)
 
+
+X = input_excluded.drop(columns=["title", "average_rating"], axis=1)
+y = df_processed["average_rating"]
 
 input_row = input_data[:1]
 input_row_processed = input_processed[:1]
 
+
 with st.expander("Input Row"):
     input_row
 
-input_prediction = input_row_processed.drop(columns=["title", "average_rating"], axis=1)
 
+input_prediction = input_row_processed.drop(columns=["title", "average_rating"], axis=1)
 
 random_forest_reg = RandomForestRegressor(random_state=42)
 random_forest_reg.fit(X, y)
 prediction = np.round(random_forest_reg.predict(input_prediction), 2)
+
 
 with st.expander("Prediction"):
     st.subheader("Predicted Average Rating")
