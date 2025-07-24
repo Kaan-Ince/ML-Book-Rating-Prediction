@@ -46,27 +46,26 @@ with st.expander("The Dataset Post-Processing"):
 
 
 X = df.drop("average_rating", axis=1)
-y = df_processed["average_rating"]
+y = df["average_rating"]
 
 
 with st.sidebar:
     st.header("Input Book Title")
     title = st.selectbox("Book Title", (df["title"]))
     input_data = {"Title": title}
-    input_df = pd.DataFrame(input_data, index=[0])
-    input_books = pd.concat([input_df, X], axis=0)
 
 with st.expander:
-    st.header("Inputted Book and its features")
-    input_df
+    st.header("Inputted Book")
+    input_data
 
 
 input_row = df[:1]
 
 
 random_forest_reg = RandomForestRegressor(random_state=42)
-random_forest_reg.fit(df_processed, y)
+random_forest_reg.fit(X, y)
 y_predicted = np.round(random_forest_reg.predict(input_row), 2)
 
-y_predicted
 
+st.subheader("Predicted Average Rating")
+y_predicted
