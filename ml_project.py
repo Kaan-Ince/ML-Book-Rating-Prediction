@@ -48,7 +48,7 @@ with st.sidebar:
 
 
 X = input_excluded.drop(columns=["title", "average_rating"], axis=1)
-y = df_processed["average_rating"]
+y = input_excluded["average_rating"]
 
 input_row = input_data[:1]
 input_row_processed = input_processed[:1]
