@@ -60,8 +60,8 @@ input_prediction = input_row_processed.drop(columns=["title", "average_rating"],
 
 random_forest_reg = RandomForestRegressor(random_state=42)
 random_forest_reg.fit(X, y)
-y_predicted = np.round(random_forest_reg.predict(input_prediction), 2)
+prediction = np.round(random_forest_reg.predict(input_prediction), 2)
 
 with st.expander("Prediction"):
     st.subheader("Predicted Average Rating")
-    y_predicted
+    prediction
