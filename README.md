@@ -2,6 +2,9 @@
 
 Machine Learning project that predicts the average rating of a book in a 0-5 star range. Dataset is obtained from Goodreads.
 
+Below link is the app built with Streamlit that showcases the prediction of the model with user input that can be entered in the sidebar.<br />
+
+[Book Rating Prediction App](https://ml-book-rating-prediction-axpmpwvjb4nkfnqy4baljd.streamlit.app/)
 
 
 
