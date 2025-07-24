@@ -63,7 +63,7 @@ with st.sidebar:
     st.header("Input Book Title")
     title = st.selectbox("Book Title", (df["title"]))
     input_data = {"Title": title}
-    input_df = pd.DataFrame(input_data, index=[0])
+    input_df = pd.DataFrame(input_data)
 
 with st.expander:
     st.write("Inputted Book and its features")
