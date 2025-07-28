@@ -140,39 +140,6 @@ df.language_code.unique()
 
 
 
-```python
-df.language_code.value_counts()
-```
-
-
-
-
-    language_code
-    eng    10539
-    spa      218
-    fre      143
-    ger       99
-    jpn       46
-    mul       19
-    zho       14
-    grc       11
-    por       10
-    ita        5
-    lat        3
-    rus        2
-    swe        2
-    ara        1
-    nl         1
-    srp        1
-    msa        1
-    glg        1
-    wel        1
-    nor        1
-    tur        1
-    gla        1
-    ale        1
-    Name: count, dtype: int64
-
 
 
 There are books with zero number of pages. Below, we replace these zero values with the mean page numbers with respect to the language that the book is in.
@@ -189,11 +156,6 @@ df = df.drop(df[df["num_pages"] == 0].index)
 ```
 
 We now drop the rows with the entry "NOT A BOOK" in the Authors column.
-
-
-```python
-df.loc[df["authors"] == "NOT A BOOK"]
-```
 
 
 
@@ -415,17 +377,6 @@ df_train, df_test = train_test_split(df_processed, test_size=0.20, random_state=
 ```
 
 
-```python
-print(len(df_processed))
-print(len(df_train))
-print(len(df_test))
-```
-
-    11042
-    8833
-    2209
-    
-
 
 ```python
 X_train = df_train.drop("average_rating", axis=1)
@@ -580,16 +531,6 @@ X_test2 = df2_test.drop("average_rating", axis=1)
 y_test2 = df2_test["average_rating"]
 ```
 
-
-```python
-print(len(df2_processed))
-print(len(X_train2))
-print(len(X_test2))
-```
-
-    11042
-    8833
-    2209
     
 
 
