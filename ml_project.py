@@ -44,7 +44,7 @@ with st.sidebar:
     title = st.selectbox("Select Book", (df["title"]))
     input_data = df.loc[df["title"] == title]
     input_processed = df_processed.loc[df_processed["title"] == title]
-    input_excluded = df_processed.drop(df[df_processed["title"] == title].index)
+    input_excluded = df_processed.drop(df_processed[df_processed["title"] == title].index)
 
 
 X = input_excluded.drop(columns=["title", "average_rating"], axis=1)
@@ -68,3 +68,4 @@ prediction = np.round(random_forest_reg.predict(input_prediction), 2)
 with st.expander("Prediction"):
     st.subheader("Predicted Average Rating")
     prediction
+
